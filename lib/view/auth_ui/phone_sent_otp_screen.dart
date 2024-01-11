@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoes_ferm/view/widgets/textfield_widget.dart';
+import '../../controller/mobile_sign_in_controller.dart';
 import '../widgets/button_widget.dart';
 
 class SentOtp extends StatefulWidget {
@@ -12,6 +13,7 @@ class SentOtp extends StatefulWidget {
 
 class _SentOtpState extends State<SentOtp> {
   final _phoneController1 = TextEditingController();
+  final SentOtpController _sentOtpController = Get.put(SentOtpController());
   final _loginKey4 = GlobalKey<FormState>();
   bool isLoading4 = false;
 
@@ -100,8 +102,8 @@ class _SentOtpState extends State<SentOtp> {
                 ),
                 onTap: () async {
                   if (_loginKey4.currentState!.validate()) {
-                    Get.snackbar(
-                        'Phone services not available', 'Sign in with google');
+                    String phoneNumber = "+91" + _phoneController1.text.trim();
+                    _sentOtpController.sendOtp(phoneNumber);
                   }
                 },
               ),

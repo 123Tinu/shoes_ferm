@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shoes_ferm/view/widgets/textfield_widget.dart';
+import '../../controller/mobile_sign_in_controller.dart';
 import '../widgets/button_widget.dart';
 
 class VerifyOtp extends StatefulWidget {
-  const VerifyOtp({super.key});
+  final String verificationId;
+
+  const VerifyOtp({Key? key, required this.verificationId}) : super(key: key);
 
   @override
   State<VerifyOtp> createState() => _VerifyOtpState();
@@ -11,6 +15,7 @@ class VerifyOtp extends StatefulWidget {
 
 class _VerifyOtpState extends State<VerifyOtp> {
   final _phoneController2 = TextEditingController();
+  final SentOtpController _sentOtpController = Get.put(SentOtpController());
   final _loginKey5 = GlobalKey<FormState>();
   bool isLoading6 = false;
 
@@ -83,9 +88,8 @@ class _VerifyOtpState extends State<VerifyOtp> {
                   ),
                   onTap: () async {
                     if (_loginKey5.currentState!.validate()) {
-                      setState(() {
-                        isLoading6 = true;
-                      });
+                      _sentOtpController.verifyOtp(
+                          _phoneController2.text, widget.verificationId);
                     }
                   },
                 ),

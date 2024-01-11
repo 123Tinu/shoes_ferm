@@ -14,7 +14,7 @@ class BannerWidget extends StatefulWidget {
 }
 
 class _BannerWidgetState extends State<BannerWidget> {
-  int currentindex = 0;
+  int currentIndex = 0;
   final CarouselController carouselController = CarouselController();
   final BannerController _bannerController = Get.put(BannerController());
 
@@ -55,7 +55,7 @@ class _BannerWidgetState extends State<BannerWidget> {
               aspectRatio: 2.0,
               onPageChanged: (index, reason) {
                 setState(() {
-                  currentindex = index;
+                  currentIndex = index;
                 });
               },
             ),
@@ -73,7 +73,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                 (entry) => GestureDetector(
                   onTap: () => carouselController.animateToPage(entry.key),
                   child: Container(
-                    width: currentindex == entry.key ? 17 : 7,
+                    width: currentIndex == entry.key ? 17 : 7,
                     height: 7.0,
                     margin: const EdgeInsets.symmetric(
                       horizontal: 3.0,
@@ -81,7 +81,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color:
-                          currentindex == entry.key ? Colors.red : Colors.grey,
+                          currentIndex == entry.key ? Colors.red : Colors.grey,
                     ),
                   ),
                 ),

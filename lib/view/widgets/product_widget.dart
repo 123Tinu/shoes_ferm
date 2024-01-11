@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../controller/product_controller.dart';
 import '../../model/product_model.dart';
+import '../screens/product_details_screen.dart';
 
 class GetProductWidget extends StatefulWidget {
   const GetProductWidget({super.key});
@@ -72,8 +73,8 @@ class _GetProductWidgetState extends State<GetProductWidget> {
                     );
                     return GestureDetector(
                       onTap: () {
-                        // Get.to(() =>
-                        //     ProductDetailsScreen(productModel: productModel));
+                        Get.to(() =>
+                            ProductDetailsScreen(productModel: productModel));
                       },
                       child: Card(
                         elevation: 2,
@@ -84,7 +85,7 @@ class _GetProductWidgetState extends State<GetProductWidget> {
                               borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(10)),
                               child: SizedBox(
-                                height: 170,
+                                height: 140,
                                 width: double.infinity,
                                 child: Image.network(
                                   height: size.height,

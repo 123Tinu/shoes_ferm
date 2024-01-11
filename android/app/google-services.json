@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "890188148825",
+    "project_id": "shoes-ferm",
+    "storage_bucket": "shoes-ferm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:890188148825:android:9110dc9d60e6b45c918148",
+        "android_client_info": {
+          "package_name": "com.shoes_ferm.shoes_ferm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiRgtAHWv6F4eEgQqdHxQTrOEfYPLdCuk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

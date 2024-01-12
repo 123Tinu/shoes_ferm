@@ -1,6 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shoes_ferm/view/screens/cart_screen.dart';
+import '../../controller/cart_product_controller.dart';
+import '../../controller/favorites_product_controller.dart';
 import '../../model/product_model.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -14,13 +18,11 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final CarouselController carouselController = CarouselController();
-
-  // final addFirebaseController = Get.put(AddFirebaseController());
+  final addFirebaseController = Get.put(AddFirebaseController());
   bool isFavorite = false;
   int currentIndex = 0;
   User? user = FirebaseAuth.instance.currentUser;
-
-  // final CartItemController _CartItemController = Get.put(CartItemController());
+  final CartItemController _CartItemController = Get.put(CartItemController());
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 color: Colors.black), // Add to Cart icon
             onPressed: () {
               // Navigate to the CartScreen
-              // Get.to(() => const Cart());
+              Get.to(() => const CartScreen());
             },
           ),
         ],
@@ -178,29 +180,28 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   color: Colors.redAccent,
                 ),
                 onPressed: () async {
-                  // setState(() {
-                  //   isFavorite = !isFavorite;
-                  // });
-                  // await addFirebaseController.addFavoriteItem(
-                  //     uId: user!.uid,
-                  //     productModel: widget.productModel);
+                  setState(() {
+                    isFavorite = !isFavorite;
+                  });
+                  await addFirebaseController.addFavoriteItem(
+                      uId: user!.uid, productModel: widget.productModel);
                 },
               ),
             ),
-            // Positioned(
-            //   top: 65,
-            //   left: 370,
-            //   child: IconButton(
-            //     icon: const Icon(
-            //       Icons.share_outlined,
-            //       size: 30,
-            //       color: Colors.black,
-            //     ),
-            //     onPressed: () {
-            //       setState(() {});
-            //     },
-            //   ),
-            // ),
+            Positioned(
+              top: 65,
+              left: 370,
+              child: IconButton(
+                icon: const Icon(
+                  Icons.share_outlined,
+                  size: 30,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  setState(() {});
+                },
+              ),
+            ),
           ],
         ),
         const SizedBox(
@@ -414,15 +415,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               color: Colors.white,
               child: TextButton(
                   onPressed: () async {
-                    // try {
-                    //   await _CartItemController.checkProductExistence(
-                    //       uId: user!.uid, productModel: widget.productModel);
-                    //   // Navigate to the CartScreen
-                    //   // Get.to(() => const Cart());
-                    // } catch (e) {
-                    //   print("Error adding to cart: $e");
-                    //   // Handle the error, e.g., show a snackbar or display an error message.
-                    // }
+                    try {
+                      await _CartItemController.checkProductExistence(
+                          uId: user!.uid, productModel: widget.productModel);
+                    } catch (e) {
+                      print("Error adding to cart: $e");
+                      // Handle the error, e.g., show a snackbar or display an error message.
+                    }
                   },
                   child: const Text(
                     "Add to cart",
@@ -435,7 +434,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               color: Colors.red,
               child: TextButton(
                   onPressed: () {
-                    // Get.off(() => const Cart());
+                    Get.off(() => const CartScreen());
                   },
                   child: const Text(
                     "Buy now",

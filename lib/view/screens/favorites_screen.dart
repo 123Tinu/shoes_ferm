@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
+import '../widgets/favorites_widget.dart';
 
-class FavoritesScreen extends StatefulWidget {
-  const FavoritesScreen({super.key});
+class Favorites extends StatefulWidget {
+  const Favorites({super.key});
 
   @override
-  State<FavoritesScreen> createState() => _FavoritesScreenState();
+  State<Favorites> createState() => _FavoritesState();
 }
 
-class _FavoritesScreenState extends State<FavoritesScreen> {
+class _FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(
-        child: Text(
-          "Favorites Screen",
-          style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 50),
-        ),
-      ),
+      body: FavouriteScreen(),
     );
   }
 }

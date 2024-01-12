@@ -4,10 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shoes_ferm/controller/device_token_controller.dart';
-import 'package:shoes_ferm/model/user_model.dart';
-import 'package:shoes_ferm/view/auth_ui/welcome_screen.dart';
 import 'package:shoes_ferm/view/main_screen.dart';
+import '../model/user_model.dart';
+import '../view/auth_ui/welcome_screen.dart';
+import 'device_token_controller.dart';
 
 class GoogleSignInController extends GetxController {
   final GoogleSignIn googleSignIn = GoogleSignIn();

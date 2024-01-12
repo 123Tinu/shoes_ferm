@@ -29,7 +29,6 @@ class UserModel {
     required this.city,
   });
 
-  // Serialize the UserModel instance to a JSON map
   Map<String, dynamic> toMap() {
     return {
       'uId': uId,

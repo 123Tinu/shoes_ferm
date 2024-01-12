@@ -16,7 +16,7 @@ class _MainScreenState extends State<MainScreen> {
   int currentSelectedIndex = 0;
   static final List pages = [
     const HomeScreen(),
-    const FavoritesScreen(),
+    const Favorites(),
     const CartScreen(),
     const SettingsScreen()
   ];

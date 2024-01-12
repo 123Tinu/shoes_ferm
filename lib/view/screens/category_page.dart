@@ -133,7 +133,6 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
         // Get.to(() => ProductDetailsScreen(productModel: productModel));

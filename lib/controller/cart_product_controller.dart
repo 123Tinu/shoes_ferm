@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../model/cart_model.dart';
 import '../model/product_model.dart';
 
+
 class CartItemController extends GetxController {
   Future<void> checkProductExistence({
     required String uId,
@@ -26,8 +27,7 @@ class CartItemController extends GetxController {
           productModel.isSale
               ? productModel.salePrice.replaceAll(',', '')
               : productModel.fullPrice.replaceAll(',', ''),
-        ) ??
-            0.0;
+        ) ?? 0.0;
 
         totalPrice *= updatedQuantity;
 

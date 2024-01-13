@@ -35,7 +35,7 @@ class AddFirebaseController extends GetxController {
       await documentReference.delete();
       Get.snackbar(
         "Item",
-        "removed from favorites",
+        "removed from favoritefavorite",
         snackPosition: SnackPosition.BOTTOM,
         duration: const Duration(seconds: 2),
       );

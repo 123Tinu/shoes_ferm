@@ -2,10 +2,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shoes_ferm/view/screens/cart_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../controller/cart_product_controller.dart';
 import '../../controller/favorites_product_controller.dart';
 import '../../model/product_model.dart';
+import 'cart_screen.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   ProductModel productModel;
@@ -19,10 +20,32 @@ class ProductDetailsScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final CarouselController carouselController = CarouselController();
   final addFirebaseController = Get.put(AddFirebaseController());
-  bool isFavorite = false;
   int currentIndex = 0;
   User? user = FirebaseAuth.instance.currentUser;
   final CartItemController _CartItemController = Get.put(CartItemController());
+  bool isFavorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Load the favorite status from SharedPreferences when the widget is created
+    loadFavoriteStatus();
+  }
+
+  // Load favorite status from SharedPreferences
+  Future<void> loadFavoriteStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isFavorite =
+          prefs.getBool('favorite_${widget.productModel.productId}') ?? false;
+    });
+  }
+
+  // Save favorite status to SharedPreferences
+  Future<void> saveFavoriteStatus(bool status) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('favorite_${widget.productModel.productId}', status);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +83,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 color: Colors.black), // Add to Cart icon
             onPressed: () {
               // Navigate to the CartScreen
-              Get.to(() => const CartScreen());
+              Get.to(() => const Cart());
             },
           ),
         ],
@@ -170,9 +193,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 },
               ),
             ),
-            Positioned(
-              top: 20,
-              left: 300,
+            Align(
+              alignment: Alignment.topRight,
               child: IconButton(
                 icon: Icon(
                   isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -183,25 +205,40 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   setState(() {
                     isFavorite = !isFavorite;
                   });
-                  await addFirebaseController.addFavoriteItem(
-                      uId: user!.uid, productModel: widget.productModel);
+
+                  if (isFavorite) {
+                    // If becoming favorite, add to Firebase
+                    await addFirebaseController.addFavoriteItem(
+                      uId: user!.uid,
+                      productModel: widget.productModel,
+                    );
+                  } else {
+                    // If removing from favorites, delete from Firebase
+                    await addFirebaseController.deleteFavoriteItem(
+                      uId: user!.uid,
+                      productId: widget.productModel.productId,
+                    );
+                  }
+
+                  // Save the favorite status to SharedPreferences
+                  await saveFavoriteStatus(isFavorite);
                 },
               ),
-            ),
-            Positioned(
-              top: 65,
-              left: 370,
-              child: IconButton(
-                icon: const Icon(
-                  Icons.share_outlined,
-                  size: 30,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  setState(() {});
-                },
-              ),
-            ),
+            )
+            // Positioned(
+            //   top: 65,
+            //   left: 370,
+            //   child: IconButton(
+            //     icon: const Icon(
+            //       Icons.share_outlined,
+            //       size: 30,
+            //       color: Colors.black,
+            //     ),
+            //     onPressed: () {
+            //       setState(() {});
+            //     },
+            //   ),
+            // ),
           ],
         ),
         const SizedBox(
@@ -406,44 +443,42 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ],
         )
       ])),
-      bottomNavigationBar: BottomAppBar(
-        child: SingleChildScrollView(
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Container(
-              width: halfwidth.width,
-              height: 56,
-              color: Colors.white,
-              child: TextButton(
-                  onPressed: () async {
-                    try {
-                      await _CartItemController.checkProductExistence(
-                          uId: user!.uid, productModel: widget.productModel);
-                    } catch (e) {
-                      print("Error adding to cart: $e");
-                      // Handle the error, e.g., show a snackbar or display an error message.
-                    }
-                  },
-                  child: const Text(
-                    "Add to cart",
-                    style: TextStyle(color: Colors.black, fontSize: 21),
-                  )),
-            ),
-            Container(
-              width: halfwidth.width,
-              height: 56,
-              color: Colors.red,
-              child: TextButton(
-                  onPressed: () {
-                    Get.off(() => const CartScreen());
-                  },
-                  child: const Text(
-                    "Buy now",
-                    style: TextStyle(color: Colors.black, fontSize: 21),
-                  )),
-            ),
-          ]),
+      bottomNavigationBar: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Container(
+          width: halfwidth.width,
+          height: 56,
+          color: Colors.white,
+          child: TextButton(
+              onPressed: () async {
+                try {
+                  await _CartItemController.checkProductExistence(
+                      uId: user!.uid, productModel: widget.productModel);
+                  // Navigate to the CartScreen
+                  // Get.to(() => const Cart());
+                } catch (e) {
+                  print("Error adding to cart: $e");
+                  // Handle the error, e.g., show a snackbar or display an error message.
+                }
+              },
+              child: const Text(
+                "Add to cart",
+                style: TextStyle(color: Colors.black, fontSize: 21),
+              )),
         ),
-      ),
+        Container(
+          width: halfwidth.width,
+          height: 56,
+          color: Colors.black,
+          child: TextButton(
+              onPressed: () {
+                Get.off(() => const Cart());
+              },
+              child: const Text(
+                "Buy now",
+                style: TextStyle(color: Colors.white, fontSize: 21),
+              )),
+        ),
+      ]),
     );
   }
 }

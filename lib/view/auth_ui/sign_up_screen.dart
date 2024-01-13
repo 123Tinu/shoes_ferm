@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shoes_ferm/view/auth_ui/email_validation_screen.dart';
 import 'package:shoes_ferm/view/auth_ui/phone_sent_otp_screen.dart';
 import 'package:shoes_ferm/view/auth_ui/sign_in_screen.dart';
 import 'package:shoes_ferm/view/widgets/square_tile_widget.dart';
 import 'package:shoes_ferm/view/widgets/textfield_widget.dart';
+import '../../controller/email_sign_in_controller.dart';
 import '../../controller/google_sign_in_controller.dart';
 import '../widgets/button_widget.dart';
 
@@ -15,14 +18,60 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final _loginKey2 = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController2 = TextEditingController();
   final _passwordController2 = TextEditingController();
-  final _loginKey2 = GlobalKey<FormState>();
   bool _passwordVisible2 = false;
   bool isLoading2 = false;
   final GoogleSignInController _googleSignInController =
       Get.put(GoogleSignInController());
+  final EmailPassController _emailPassController =
+      Get.put(EmailPassController());
+
+  Widget getTextField(
+      {required String hint,
+      required var icons,
+      bool obstxt = null ?? false,
+      var suficons,
+      required var validator,
+      required var controller,
+      required var keyboardType}) {
+    return TextFormField(
+      obscureText: obstxt,
+      keyboardType: keyboardType,
+      validator: validator,
+      controller: controller,
+      decoration: InputDecoration(
+          suffixIcon: suficons,
+          errorStyle: const TextStyle(
+            color: Colors.yellow,
+            fontSize: null,
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+          ),
+          prefixIcon: icons,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: const BorderSide(color: Colors.transparent),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: const BorderSide(color: Colors.transparent),
+          ),
+          contentPadding:
+              EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+          filled: true,
+          fillColor: const Color(0xFFF1F4FF),
+          hintText: hint,
+          hintStyle: TextStyle(
+            color: Colors.black54,
+            fontFamily: 'Roboto-Regular',
+            fontSize: 15.sp,
+            height: 0.h,
+          )),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,8 +191,23 @@ class _SignUpState extends State<SignUp> {
                 ),
                 onTap: () async {
                   if (_loginKey2.currentState!.validate()) {
-                    Get.snackbar(
-                        'Email services not available', 'Sign in with google');
+                    _emailPassController.updateLoading();
+                    try {
+                      _emailPassController.signupUser(_emailController2.text,
+                          _passwordController2.text, _nameController.text);
+                      if (_emailPassController.currentUser != null) {
+                        Get.off(
+                            () => EmailValidationScreen(
+                                user: _emailPassController.currentUser!),
+                            transition: Transition.leftToRightWithFade);
+                      } else {
+                        Get.snackbar('No User Is', 'currently authenticated');
+                      }
+                    } catch (e) {
+                      Get.snackbar('Error', e.toString());
+                    } finally {
+                      _emailPassController.updateLoading();
+                    }
                   }
                 },
               ),

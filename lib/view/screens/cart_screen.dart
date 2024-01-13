@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:shoes_ferm/view/screens/checkout_screen.dart';
-
 import '../../controller/cart_price_controller.dart';
 import '../../model/cart_model.dart';
-
 
 class Cart extends StatefulWidget {
   const Cart({super.key});
@@ -20,7 +18,7 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   User? user = FirebaseAuth.instance.currentUser;
   final ProductPriceController _productPriceController =
-  Get.put(ProductPriceController());
+      Get.put(ProductPriceController());
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +60,8 @@ class _CartState extends State<Cart> {
                   if (snapshot.data!.docs.isEmpty) {
                     return const Text(
                       "No products found!",
-                      style: TextStyle(
-                          fontSize: 20, fontFamily: 'Roboto-Regular'),
+                      style:
+                          TextStyle(fontSize: 20, fontFamily: 'Roboto-Regular'),
                     );
                   }
 
@@ -85,16 +83,15 @@ class _CartState extends State<Cart> {
                           productImages: productData['productImages'],
                           deliveryTime: productData['deliveryTime'],
                           isSale: productData['isSale'],
-                          productDescription:
-                          productData['productDescription'],
+                          productDescription: productData['productDescription'],
                           createdAt: productData['createdAt'],
                           updatedAt: productData['updatedAt'],
                           productQuantity: productData['productQuantity'],
                           productTotalPrice: double.tryParse(
-                            productData['productTotalPrice']
-                                .toString()
-                                .replaceAll(',', ''),
-                          ) ??
+                                productData['productTotalPrice']
+                                    .toString()
+                                    .replaceAll(',', ''),
+                              ) ??
                               0.0,
                         );
 
@@ -155,7 +152,7 @@ class _CartState extends State<Cart> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Text(
                                             "Price: ${cartModel.productTotalPrice.toString()}"),
@@ -163,8 +160,7 @@ class _CartState extends State<Cart> {
                                           children: [
                                             GestureDetector(
                                               onTap: () async {
-                                                if (cartModel
-                                                    .productQuantity >
+                                                if (cartModel.productQuantity >
                                                     1) {
                                                   await FirebaseFirestore
                                                       .instance
@@ -174,10 +170,10 @@ class _CartState extends State<Cart> {
                                                       .doc(cartModel.productId)
                                                       .update({
                                                     'productQuantity':
-                                                    FieldValue.increment(
-                                                        -1),
+                                                        FieldValue.increment(
+                                                            -1),
                                                     'productTotalPrice':
-                                                    FieldValue.increment(
+                                                        FieldValue.increment(
                                                       -double.parse(cartModel
                                                           .fullPrice
                                                           .replaceAll(',', '')),
@@ -198,7 +194,7 @@ class _CartState extends State<Cart> {
                                                       color: Colors.black,
                                                       fontSize: 25,
                                                       fontWeight:
-                                                      FontWeight.bold),
+                                                          FontWeight.bold),
                                                 ),
                                               ),
                                             ),
@@ -207,17 +203,16 @@ class _CartState extends State<Cart> {
                                             ),
                                             GestureDetector(
                                               onTap: () async {
-                                                await FirebaseFirestore
-                                                    .instance
+                                                await FirebaseFirestore.instance
                                                     .collection('cart')
                                                     .doc(user!.uid)
                                                     .collection('cartOrders')
                                                     .doc(cartModel.productId)
                                                     .update({
                                                   'productQuantity':
-                                                  FieldValue.increment(1),
+                                                      FieldValue.increment(1),
                                                   'productTotalPrice':
-                                                  FieldValue.increment(
+                                                      FieldValue.increment(
                                                     double.parse(cartModel
                                                         .fullPrice
                                                         .replaceAll(',', '')),
@@ -236,14 +231,18 @@ class _CartState extends State<Cart> {
                                                       color: Colors.black,
                                                       fontSize: 22,
                                                       fontWeight:
-                                                      FontWeight.bold),
+                                                          FontWeight.bold),
                                                 ),
                                               ),
                                             ),
                                           ],
                                         ),
                                         Text(
-                                            "Quantity: ${cartModel.productQuantity}")
+                                            "Quantity: ${cartModel.productQuantity}",
+                                          style: TextStyle(
+                                            fontSize: 10
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ],
@@ -271,7 +270,7 @@ class _CartState extends State<Cart> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Obx(
-                    () => Text(
+                () => Text(
                   " Total ₹ : ${_productPriceController.totalPrice.value.toStringAsFixed(1)} rs",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
@@ -347,10 +346,8 @@ class _CartState extends State<Cart> {
           updatedAt: productData['updatedAt'],
           productQuantity: productData['productQuantity'],
           productTotalPrice: double.tryParse(
-            productData['productTotalPrice']
-                .toString()
-                .replaceAll(',', ''),
-          ) ??
+                productData['productTotalPrice'].toString().replaceAll(',', ''),
+              ) ??
               0.0,
         );
         totalPrice += cartModel.productTotalPrice;

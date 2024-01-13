@@ -1,12 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoes_ferm/controller/google_sign_in_controller.dart';
 import 'package:shoes_ferm/view/auth_ui/forgot_password_screen.dart';
 import 'package:shoes_ferm/view/auth_ui/phone_sent_otp_screen.dart';
 import 'package:shoes_ferm/view/auth_ui/sign_up_screen.dart';
+import 'package:shoes_ferm/view/main_screen.dart';
 import 'package:shoes_ferm/view/widgets/button_widget.dart';
 import 'package:shoes_ferm/view/widgets/square_tile_widget.dart';
 import 'package:shoes_ferm/view/widgets/textfield_widget.dart';
+import '../../controller/email_sign_in_controller.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -16,13 +19,19 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final _loginKey1 = GlobalKey<FormState>();
   final _emailController1 = TextEditingController();
   final _passwordController1 = TextEditingController();
-  final _loginKey1 = GlobalKey<FormState>();
+
+  get emailTextController => _passwordController1;
+
+  get passwordTextController => _passwordController1;
   bool _passwordVisible1 = false;
   bool isLoading1 = false;
   final GoogleSignInController _googleSignInController =
       Get.put(GoogleSignInController());
+  final EmailPassController _emailPassController =
+      Get.put(EmailPassController());
 
   @override
   Widget build(BuildContext context) {
@@ -145,8 +154,22 @@ class _SignInState extends State<SignIn> {
                 ),
                 onTap: () async {
                   if (_loginKey1.currentState!.validate()) {
-                    Get.snackbar(
-                        'Email services not available', 'Sign in with google');
+                    _emailPassController.updateLoading();
+                    try {
+                      UserCredential? userCredential =
+                          await _emailPassController.signinUser(
+                              _emailController1.text,
+                              _passwordController1.text);
+                      if (userCredential!.user!.emailVerified) {
+                        final user = userCredential.user;
+                        Get.offAll(() => const MainScreen(),
+                            transition: Transition.leftToRightWithFade);
+                      }
+                    } catch (e) {
+                      print(e);
+                    } finally {
+                      _emailPassController.updateLoading();
+                    }
                   }
                 },
               ),

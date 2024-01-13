@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoes_ferm/view/auth_ui/sign_up_screen.dart';
 import 'package:shoes_ferm/view/widgets/textfield_widget.dart';
+import '../../controller/email_sign_in_controller.dart';
 import '../widgets/button_widget.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -12,9 +13,11 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
-  final _emailController3 = TextEditingController();
+  final TextEditingController _forgotPasswordController =
+      TextEditingController();
+  final EmailPassController _emailPassController =
+      Get.put(EmailPassController());
   final _loginKey3 = GlobalKey<FormState>();
-  bool isLoading3 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +59,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
               MyTextField(
                 keyboardType: TextInputType.emailAddress,
-                controller: _emailController3,
+                controller: _forgotPasswordController,
                 hintText: 'Email',
                 obscureText: false,
                 prefixIcon: const Icon(
@@ -89,10 +92,19 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     ),
                   ),
                 ),
-                onTap: () async {
+                onTap: () {
                   if (_loginKey3.currentState!.validate()) {
-                    Get.snackbar(
-                        'Email services not available', 'Sign in with google');
+                    String email = _forgotPasswordController.text.trim();
+                    print(email);
+                    if (email.isEmpty) {
+                      Get.snackbar(
+                        "Error",
+                        "Please enter all details",
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    } else {
+                      _emailPassController.forgotPassword(email);
+                    }
                   }
                 },
               ),

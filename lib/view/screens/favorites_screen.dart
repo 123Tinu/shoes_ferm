@@ -15,10 +15,12 @@ class FavouriteScreen extends StatefulWidget {
 class _FavouriteScreenState extends State<FavouriteScreen> {
   final addFirebaseController = Get.put(AddFirebaseController());
   User? user = FirebaseAuth.instance.currentUser;
+  bool isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('favorite')
@@ -36,127 +38,155 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
             return const Center(child: Text('Favourite screen is empty.'));
           }
           final favoriteItem = snapshot.data!.docs;
-
           return ListView.builder(
             itemCount: favoriteItem.length,
             itemBuilder: (context, index) {
               final cartItem = favoriteItem[index];
-              final cartProduct =
-              FavoriteModel.fromMap(cartItem.data() as Map<String, dynamic>);
-
-              return Dismissible(
-                key: Key(cartProduct.productId),
-                onDismissed: (direction) async {
-                  await addFirebaseController.deleteFavoriteItem(
-                    uId: user!.uid,
-                    productId: cartProduct.productId,
-                  );
-                },
-                background: Container(
-                  color: Colors.redAccent,
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.only(right: 20),
-                  child: const Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                    size: 30,
-                  ),
+              final cartProduct = FavoriteModel.fromMap(
+                  cartItem.data() as Map<String, dynamic>);
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10,
-                  ),
-                  child: Card(
-                    elevation: 2,
+                child: Stack(children: [
+                  Card(
                     color: Colors.white,
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         ClipRRect(
-                          borderRadius:
-                          const BorderRadius.vertical(top: Radius.circular(10)),
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(10),
+                            bottom: Radius.circular(10),
+                          ),
                           child: SizedBox(
-                            height: 170,
-                            width: 140, // Adjust the width as needed
+                            height: 130,
+                            width: 130,
                             child: Image.network(
                               "${cartProduct.productImages[0]}",
                               fit: BoxFit.cover,
                             ),
                           ),
                         ),
-                        const SizedBox(width: 10), // Adjust the spacing as needed
-                        Expanded(
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        SizedBox(
+                          height: 130,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
                               Text(
-                                cartProduct.productName,
+                                cartProduct.productName2,
                                 style: const TextStyle(
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Text(
-                                  cartProduct.categoryName,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                  ),
-                                ),
+                              const SizedBox(
+                                height: 2,
                               ),
                               const Row(
                                 children: [
+                                  Text(
+                                    '4.5',
+                                    style: TextStyle(
+                                        color: Colors.orangeAccent,
+                                        fontSize: 10),
+                                  ),
                                   SizedBox(
-                                    width: 5,
+                                    width: 10,
                                   ),
                                   Icon(
                                     Icons.star,
                                     color: Colors.orangeAccent,
+                                    size: 13,
                                   ),
                                   Icon(
                                     Icons.star,
                                     color: Colors.orangeAccent,
+                                    size: 13,
                                   ),
                                   Icon(
                                     Icons.star,
                                     color: Colors.orangeAccent,
+                                    size: 13,
+                                  ),
+                                  Icon(
+                                    Icons.star,
+                                    color: Colors.orangeAccent,
+                                    size: 13,
                                   ),
                                   Icon(
                                     Icons.star_half,
                                     color: Colors.orangeAccent,
+                                    size: 13,
                                   ),
-                                  Icon(
-                                    Icons.star_border,
-                                    color: Colors.orangeAccent,
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    '(32)',
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 8),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 40,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    ' ₹ ${cartProduct.fullPrice}',
-                                    style: const TextStyle(
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                    ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              SizedBox(
+                                height: 40,
+                                width: 190,
+                                child: Text(
+                                  cartProduct.productDescription,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.black,
+                                    fontSize: 10,
                                   ),
-                                ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                'Rs. ${cartProduct.fullPrice}',
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
                               ),
                             ],
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
-                ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: IconButton(
+                          icon: Icon(
+                            isFavorite ? Icons.favorite_border : Icons.favorite,
+                            color: Colors.redAccent,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isFavorite = !isFavorite;
+                            });
+                          }),
+                    ),
+                  ),
+                ]),
               );
             },
           );

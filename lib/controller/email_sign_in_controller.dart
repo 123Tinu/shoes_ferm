@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../model/user_model.dart';
 import '../view/auth_ui/welcome_screen.dart';
@@ -10,20 +9,18 @@ class EmailPassController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   RxBool passwordVisible = true.obs;
   RxBool loading = false.obs;
-
-  void updateLoading() {
+  void updateLoading(){
     loading.toggle();
   }
-
   void updateVisibility() {
-    passwordVisible.toggle();
+    passwordVisible.toggle(); // Use toggle method to toggle the value
   }
 
   FirebaseAuth get auth => _auth;
 
   Future<void> signupUser(String email, String password, String name) async {
     final GetDeviceTokenController getDeviceTokenController =
-        Get.put(GetDeviceTokenController());
+    Get.put(GetDeviceTokenController());
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -52,9 +49,7 @@ class EmailPassController extends GetxController {
             .doc(userCredential.user!.uid)
             .set(userModel.toMap());
       } catch (error) {
-        if (kDebugMode) {
-          print('Error saving user data to Firestore: $error');
-        }
+        print('Error saving user data to Firestore: $error');
         Get.snackbar(
           "Error",
           "$error",
@@ -74,8 +69,7 @@ class EmailPassController extends GetxController {
   }
 
   User? get currentUser => _auth.currentUser;
-
-  Future<UserCredential?> signInUser(
+  Future<UserCredential?> signinUser(
       String userEmail, String userPassword) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
@@ -91,16 +85,13 @@ class EmailPassController extends GetxController {
         Get.snackbar('Error', 'Password did not match');
       }
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+      print(e);
     }
-    return null;
   }
 
   Future<void> forgotPassword(
-    String userEmail,
-  ) async {
+      String userEmail,
+      ) async {
     try {
       await _auth.sendPasswordResetEmail(email: userEmail);
       Get.snackbar(

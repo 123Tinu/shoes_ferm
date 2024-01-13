@@ -22,7 +22,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final addFirebaseController = Get.put(AddFirebaseController());
   int currentIndex = 0;
   User? user = FirebaseAuth.instance.currentUser;
-  final CartItemController _CartItemController = Get.put(CartItemController());
+  final CartItemController _cartItemController = Get.put(CartItemController());
   bool isFavorite = false;
 
   @override
@@ -50,7 +50,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    Size halfwidth = MediaQuery.of(context).size / 2;
+    Size halfWidth = MediaQuery.of(context).size / 2;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -225,20 +225,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 },
               ),
             )
-            // Positioned(
-            //   top: 65,
-            //   left: 370,
-            //   child: IconButton(
-            //     icon: const Icon(
-            //       Icons.share_outlined,
-            //       size: 30,
-            //       color: Colors.black,
-            //     ),
-            //     onPressed: () {
-            //       setState(() {});
-            //     },
-            //   ),
-            // ),
           ],
         ),
         const SizedBox(
@@ -445,13 +431,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ])),
       bottomNavigationBar: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Container(
-          width: halfwidth.width,
+          width: halfWidth.width,
           height: 56,
           color: Colors.white,
           child: TextButton(
               onPressed: () async {
                 try {
-                  await _CartItemController.checkProductExistence(
+                  await _cartItemController.checkProductExistence(
                       uId: user!.uid, productModel: widget.productModel);
                   // Navigate to the CartScreen
                   // Get.to(() => const Cart());
@@ -466,7 +452,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               )),
         ),
         Container(
-          width: halfwidth.width,
+          width: halfWidth.width,
           height: 56,
           color: Colors.black,
           child: TextButton(

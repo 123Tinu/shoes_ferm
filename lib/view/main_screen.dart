@@ -17,7 +17,7 @@ class _MainScreenState extends State<MainScreen> {
   static final List pages = [
     const HomeScreen(),
     const FavouriteScreen(),
-    const Cart(),
+    const CartScreen(),
     const SettingsScreen()
   ];
   var titles = ["Home", "Favorites", "Cart", "Settings"];

@@ -83,7 +83,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 color: Colors.black), // Add to Cart icon
             onPressed: () {
               // Navigate to the CartScreen
-              Get.to(() => const Cart());
+              Get.to(() => const CartScreen());
             },
           ),
         ],
@@ -457,7 +457,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           color: Colors.black,
           child: TextButton(
               onPressed: () {
-                Get.off(() => const Cart());
+                Get.off(() => const CartScreen());
               },
               child: const Text(
                 "Buy now",

@@ -1,15 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+
 import '../model/cart_model.dart';
 import '../model/product_model.dart';
 
-
 class CartItemController extends GetxController {
-  Future<void> checkProductExistence({
-    required String uId,
-    int quantityIncrement = 1,
-    required ProductModel productModel,
-  }) async {
+  Future<void> checkProductExistence(
+      {required String uId,
+      int quantityIncrement = 1,
+      required ProductModel productModel}) async {
     final DocumentReference documentReference = FirebaseFirestore.instance
         .collection('cart')
         .doc(uId)
@@ -21,25 +21,18 @@ class CartItemController extends GetxController {
     if (snapshot.exists) {
       int currentQuantity = snapshot['productQuantity'];
       int updatedQuantity = currentQuantity + quantityIncrement;
+      double totalPrice = double.parse(productModel.isSale
+              ? productModel.salePrice
+              : productModel.fullPrice) *
+          updatedQuantity;
 
-      try {
-        double totalPrice = double.tryParse(
-          productModel.isSale
-              ? productModel.salePrice.replaceAll(',', '')
-              : productModel.fullPrice.replaceAll(',', ''),
-        ) ?? 0.0;
-
-        totalPrice *= updatedQuantity;
-
-        await documentReference.update({
-          'productQuantity': updatedQuantity,
-          'productTotalPrice': totalPrice,
-        });
-
-        Get.snackbar("Product exists", "Update quantity");
-        print("Product exists");
-      } catch (e) {
-        print("Error updating quantity: $e");
+      await documentReference.update({
+        'productQuantity': updatedQuantity,
+        'productTotalPrice': totalPrice
+      });
+      Get.snackbar("product exists", "update quantity");
+      if (kDebugMode) {
+        print("product exists");
       }
     } else {
       await FirebaseFirestore.instance.collection('cart').doc(uId).set(
@@ -64,16 +57,17 @@ class CartItemController extends GetxController {
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         productQuantity: 1,
-        productTotalPrice: double.parse(
-          productModel.isSale
-              ? productModel.salePrice.replaceAll(',', '')
-              : productModel.fullPrice.replaceAll(',', ''),
-        ),
+        productTotalPrice: double.parse(productModel.isSale
+            ? productModel.salePrice
+            : productModel.fullPrice),
       );
 
       await documentReference.set(cartModel.toMap());
 
-      Get.snackbar("Success", "Product added");
+      if (kDebugMode) {
+        print("product added");
+      }
+      Get.snackbar("Success", "product added");
     }
   }
 }

@@ -103,8 +103,7 @@ class _GetProductWidgetState extends State<GetProductWidget> {
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
+                            Flexible(
                               child: Text(
                                 productModel.productName2,
                                 style: const TextStyle(

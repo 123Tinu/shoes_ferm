@@ -45,7 +45,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                 )
                 .toList(),
             options: CarouselOptions(
-              height: 190,
+              height: 175,
               enableInfiniteScroll: true,
               autoPlay: true,
               autoPlayInterval: const Duration(seconds: 4),
@@ -62,7 +62,7 @@ class _BannerWidgetState extends State<BannerWidget> {
           );
         }),
         const SizedBox(
-          height: 13,
+          height: 10,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

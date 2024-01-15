@@ -10,13 +10,6 @@ class AddFirebaseController extends GetxController {
   num totalPriceFinal = 0;
   num cartTotal = 0.0;
 
-  @override
-  void onInit() {
-    super.onInit();
-    // calculateCartTotal(user!.uid).then((total) {
-    //   cartTotal = total;
-    // });
-  }
 
   Future<void> deleteFavoriteItem({
     required String uId,
@@ -35,8 +28,8 @@ class AddFirebaseController extends GetxController {
       await documentReference.delete();
       Get.snackbar(
         "Item",
-        "removed from favoritefavorite",
-        snackPosition: SnackPosition.BOTTOM,
+        "Removed from favorites",
+        snackPosition: SnackPosition.TOP,
         duration: const Duration(seconds: 2),
       );
     }
@@ -71,7 +64,7 @@ class AddFirebaseController extends GetxController {
       Get.snackbar(
         "Product Added to favorite",
         "${productModel.productName} to favorite",
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         duration: const Duration(seconds: 2),
       );
     } else {
@@ -268,7 +261,7 @@ class AddFirebaseController extends GetxController {
     }
 
     totalPriceFinal = totalPrice;
-    print('totsl $totalPriceFinal');
+    print('total $totalPriceFinal');
     return totalPriceFinal;
   }
 }

@@ -44,10 +44,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: ListView(children: const [
-        Column(children: [
+      body: ListView(
+          children: const [
+        Column(
+            children: [
           SizedBox(
-            height: 10,
+            height: 5,
           ),
           Align(
             alignment: Alignment(-0.96, 0),
@@ -63,7 +65,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+          SizedBox(
+            height: 5,
+          ),
           BannerWidget(),
+              SizedBox(
+                height: 10,
+              ),
           CategoryWidget(),
           Align(
             alignment: Alignment(-0.96, 0),
@@ -77,6 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   )),
             ),
           ),
+              SizedBox(
+                height: 5,
+              ),
           GetProductWidget(),
         ]),
       ]),

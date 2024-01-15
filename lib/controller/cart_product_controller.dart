@@ -30,9 +30,9 @@ class CartItemController extends GetxController {
         'productQuantity': updatedQuantity,
         'productTotalPrice': totalPrice
       });
-      Get.snackbar("product exists", "update quantity");
+      Get.snackbar("Product exists", "Update quantity");
       if (kDebugMode) {
-        print("product exists");
+        print("Product exists");
       }
     } else {
       await FirebaseFirestore.instance.collection('cart').doc(uId).set(
@@ -65,7 +65,7 @@ class CartItemController extends GetxController {
       await documentReference.set(cartModel.toMap());
 
       if (kDebugMode) {
-        print("product added");
+        print("Product added");
       }
       Get.snackbar("Success", "product added");
     }

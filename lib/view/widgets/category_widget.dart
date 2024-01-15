@@ -36,7 +36,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
           List<QueryDocumentSnapshot<Object?>> data = snapshot.data!;
           int dataLength = data.length;
           return SizedBox(
-            height: 120,
+            height: 110,
             width: size.width,
             child: ListView.builder(
               itemCount: dataLength,
@@ -54,7 +54,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                 return Padding(
                   padding: const EdgeInsets.all(.0),
                   child: GestureDetector(
-                    onTap: () => Get.offAll(
+                    onTap: () => Get.to(
                         () => AllSingleCategoryProductsScreen(
                               categoryId: categoryModel.categoryId,
                             ),
@@ -65,14 +65,12 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(5.0),
                             child: Column(
                               children: [
                                 Container(
                                   width: 80,
-                                  // Set a fixed width for the container
                                   height: 80,
-                                  // Set a fixed height for the container
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     boxShadow: [
@@ -85,27 +83,38 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                                       ),
                                     ],
                                   ),
-                                  child: CircleAvatar(
-                                    radius: 40,
-                                    backgroundColor: Colors.white,
-                                    child: ClipOval(
-                                      child: CachedNetworkImage(
-                                        imageUrl: categoryModel.categoryImg,
-                                        fit: BoxFit.cover,
-                                        placeholder: (context, url) =>
-                                            const ColoredBox(
-                                          color: Colors.white,
-                                          child: Center(
-                                            child: CupertinoActivityIndicator(),
+                                  child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        CircleAvatar(
+                                          backgroundColor: Colors.grey[200],
+                                          radius: 39,
+                                        ),
+                                        CircleAvatar(
+                                          radius: 38,
+                                          backgroundColor: Colors.white,
+                                          child: ClipOval(
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  categoryModel.categoryImg,
+                                              fit: BoxFit.cover,
+                                              placeholder: (context, url) =>
+                                                  const ColoredBox(
+                                                color: Colors.white,
+                                                child: Center(
+                                                  child:
+                                                      CupertinoActivityIndicator(),
+                                                ),
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      const Icon(Icons.error),
+                                            ),
                                           ),
                                         ),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error),
-                                      ),
-                                    ),
-                                  ),
+                                      ]),
                                 ),
-                                const SizedBox(height: 8),
+                                const SizedBox(height: 5),
                                 Text(
                                   categoryModel.categoryName,
                                   textAlign: TextAlign.center,

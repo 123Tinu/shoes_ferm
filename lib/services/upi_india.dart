@@ -53,7 +53,7 @@ class _UpiScreenState extends State<UpiScreen> {
     return _upiIndia.startTransaction(
       app: app,
       receiverUpiId: "vineeth.venu.mini@okicici",
-      receiverName: 'Vineeth Venu',
+      receiverName: 'Tinu Tomy',
       transactionRefId: 'TestingUpiIndiaPlugin',
       transactionNote: 'Not actual. Just an example.',
       amount: amount,

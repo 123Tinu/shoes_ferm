@@ -157,7 +157,7 @@ class _CartScreenState extends State<CartScreen> {
                         Get.snackbar(
                           'Empty Cart',
                           'Your cart is empty. Add some items to proceed to checkout.',
-                          snackPosition: SnackPosition.BOTTOM,
+                          snackPosition: SnackPosition.TOP,
                           duration: const Duration(seconds: 3),
                         );
                       }

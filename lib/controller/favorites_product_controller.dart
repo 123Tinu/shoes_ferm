@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../model/cart_model.dart';
 import '../model/favorite_model.dart';
@@ -9,7 +10,6 @@ class AddFirebaseController extends GetxController {
   User? user = FirebaseAuth.instance.currentUser;
   num totalPriceFinal = 0;
   num cartTotal = 0.0;
-
 
   Future<void> deleteFavoriteItem({
     required String uId,
@@ -46,17 +46,25 @@ class AddFirebaseController extends GetxController {
         .doc(productModel.productId.toString());
     DocumentSnapshot snapshot = await documentReference.get();
     if (snapshot.exists) {
-      print("Product already exist");
-      print("Product quantity updated: $quantityIncrement");
+      if (kDebugMode) {
+        print("Product already exist");
+      }
+      if (kDebugMode) {
+        print("Product quantity updated: $quantityIncrement");
+      }
       int currentQuantity = snapshot['productQuantity'];
       int updatedQuantity = currentQuantity + quantityIncrement;
-      print("Product quantity updated: $updatedQuantity");
+      if (kDebugMode) {
+        print("Product quantity updated: $updatedQuantity");
+      }
       double totalPrice = double.parse(productModel.isSale
               ? productModel.salePrice
               : productModel.fullPrice) *
           updatedQuantity;
 
-      print("Product quantity updated: $totalPrice");
+      if (kDebugMode) {
+        print("Product quantity updated: $totalPrice");
+      }
       await documentReference.update({
         'productQuantity': updatedQuantity,
         'productTotalPrice': totalPrice
@@ -98,14 +106,16 @@ class AddFirebaseController extends GetxController {
       Get.snackbar(
         "Product Added to favorite",
         "You have added the ${productModel.productName}",
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         duration: const Duration(seconds: 2),
       );
-      print("product added");
+      if (kDebugMode) {
+        print("product added");
+      }
     }
   }
 
-  Future<void> checkProductExistance(
+  Future<void> checkProductExistence(
       {required String uId,
       required ProductModel productModel,
       int quantityIncrement = 1}) async {
@@ -116,16 +126,24 @@ class AddFirebaseController extends GetxController {
         .doc(productModel.productId.toString());
     DocumentSnapshot snapshot = await documentReference.get();
     if (snapshot.exists) {
-      print("Product already exist");
-      print("Product quantity updated: $quantityIncrement");
+      if (kDebugMode) {
+        print("Product already exist");
+      }
+      if (kDebugMode) {
+        print("Product quantity updated: $quantityIncrement");
+      }
       int currentQuantity = snapshot['productQuantity'];
       int updatedQuantity = currentQuantity + quantityIncrement;
-      print("Product quantity updated: $updatedQuantity");
+      if (kDebugMode) {
+        print("Product quantity updated: $updatedQuantity");
+      }
       double totalPrice = double.parse(productModel.isSale
               ? productModel.salePrice
               : productModel.fullPrice) *
           updatedQuantity;
-      print("Product quantity updated: $totalPrice");
+      if (kDebugMode) {
+        print("Product quantity updated: $totalPrice");
+      }
       await documentReference.update({
         'productQuantity': updatedQuantity,
         'productTotalPrice': totalPrice
@@ -133,7 +151,7 @@ class AddFirebaseController extends GetxController {
       Get.snackbar(
         "Product quantity updated",
         "${productModel.productName} to the cart",
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         duration: const Duration(seconds: 2),
       );
     } else {
@@ -165,10 +183,12 @@ class AddFirebaseController extends GetxController {
       Get.snackbar(
         "Product Added",
         "You have added the ${productModel.productName} to the cart",
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         duration: const Duration(seconds: 2),
       );
-      print("product added");
+      if (kDebugMode) {
+        print("product added");
+      }
     }
   }
 
@@ -187,10 +207,14 @@ class AddFirebaseController extends GetxController {
 
     if (snapshot.exists) {
       int currentQuantity = snapshot['productQuantity'];
-      print('currentQuantity: $currentQuantity');
+      if (kDebugMode) {
+        print('currentQuantity: $currentQuantity');
+      }
       double productTotalPrice =
           double.parse('${snapshot['productTotalPrice']}');
-      print('productTotalPrice: $productTotalPrice');
+      if (kDebugMode) {
+        print('productTotalPrice: $productTotalPrice');
+      }
       int updatedQuantity = currentQuantity + quantityIncrement;
       bool isSale = bool.parse('${snapshot['isSale']}');
       double unitPrice = double.parse(
@@ -200,9 +224,13 @@ class AddFirebaseController extends GetxController {
         'productQuantity': updatedQuantity,
         'productTotalPrice': totalPrice
       });
-      print("Quantity incremented by $quantityIncrement");
+      if (kDebugMode) {
+        print("Quantity incremented by $quantityIncrement");
+      }
     } else {
-      print("Product not found in the cart");
+      if (kDebugMode) {
+        print("Product not found in the cart");
+      }
     }
   }
 
@@ -221,10 +249,14 @@ class AddFirebaseController extends GetxController {
 
     if (snapshot.exists) {
       int currentQuantity = snapshot['productQuantity'];
-      print('currentQuantity: $currentQuantity');
+      if (kDebugMode) {
+        print('currentQuantity: $currentQuantity');
+      }
       double productTotalPrice =
           double.parse('${snapshot['productTotalPrice']}');
-      print('productTotalPrice: $productTotalPrice');
+      if (kDebugMode) {
+        print('productTotalPrice: $productTotalPrice');
+      }
       if (currentQuantity >= quantityDecrement) {
         int updatedQuantity = currentQuantity - quantityDecrement;
         bool isSale = bool.parse('${snapshot['isSale']}');
@@ -236,12 +268,15 @@ class AddFirebaseController extends GetxController {
           'productTotalPrice': totalPrice
         });
       } else {
-        // If the current quantity is 1, remove the item from the cart
         await documentReference.delete();
-        print("Product removed from the cart");
+        if (kDebugMode) {
+          print("Product removed from the cart");
+        }
       }
     } else {
-      print("Product not found in the cart");
+      if (kDebugMode) {
+        print("Product not found in the cart");
+      }
     }
   }
 
@@ -261,7 +296,9 @@ class AddFirebaseController extends GetxController {
     }
 
     totalPriceFinal = totalPrice;
-    print('total $totalPriceFinal');
+    if (kDebugMode) {
+      print('total $totalPriceFinal');
+    }
     return totalPriceFinal;
   }
 }

@@ -103,6 +103,7 @@ class PlaceOrderController extends GetxController {
         Get.snackbar(
           "Order Confirmed",
           "Thank you for your order!",
+          snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.transparent,
           colorText: Colors.grey,
           duration: const Duration(seconds: 5),

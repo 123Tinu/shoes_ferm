@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,11 +29,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    // Load the favorite status from SharedPreferences when the widget is created
     loadFavoriteStatus();
   }
 
-  // Load favorite status from SharedPreferences
   Future<void> loadFavoriteStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -41,7 +40,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     });
   }
 
-  // Save favorite status to SharedPreferences
   Future<void> saveFavoriteStatus(bool status) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('favorite_${widget.productModel.productId}', status);
@@ -52,6 +50,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     Size size = MediaQuery.of(context).size;
     Size halfWidth = MediaQuery.of(context).size / 2;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -79,66 +78,97 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.shopping_cart,
-                color: Colors.black), // Add to Cart icon
+            icon: const Icon(Icons.shopping_cart, color: Colors.black),
             onPressed: () {
-              // Navigate to the CartScreen
               Get.to(() => const CartScreen());
             },
           ),
         ],
       ),
       body: SingleChildScrollView(
-          child: Column(children: [
+          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
         const SizedBox(
           height: 10,
         ),
-        Align(
-            alignment: const Alignment(-0.99, 0),
-            child: Text(
+        Row(
+          children: [
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
               widget.productModel.productName,
               style: const TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.w400, color: Colors.red),
-            )),
-        Align(
-          alignment: const Alignment(-0.99, 0),
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Text(
-              widget.productModel.categoryName,
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w300,
-              ),
+                  fontSize: 23,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
-          ),
+          ],
+        ),
+        Row(
+          children: [
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              widget.productModel.productName2,
+              style: const TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+          ],
         ),
         const Row(
           children: [
             SizedBox(
-              width: 5,
+              width: 10,
+            ),
+            Text(
+              '4.5',
+              style: TextStyle(color: Colors.orangeAccent, fontSize: 15),
+            ),
+            SizedBox(
+              width: 10,
             ),
             Icon(
               Icons.star,
               color: Colors.orangeAccent,
+              size: 20,
             ),
             Icon(
               Icons.star,
               color: Colors.orangeAccent,
+              size: 20,
             ),
             Icon(
               Icons.star,
               color: Colors.orangeAccent,
+              size: 20,
+            ),
+            Icon(
+              Icons.star,
+              color: Colors.orangeAccent,
+              size: 20,
             ),
             Icon(
               Icons.star_half,
               color: Colors.orangeAccent,
+              size: 20,
             ),
-            Icon(
-              Icons.star_border,
-              color: Colors.orangeAccent,
+            SizedBox(
+              width: 5,
+            ),
+            Text(
+              '(32)',
+              style: TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w300,
+                  fontSize: 15),
             ),
           ],
+        ),
+        const SizedBox(
+          height: 5,
         ),
         Stack(
           children: [
@@ -147,41 +177,33 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   .map(
                     (imagePath) => Container(
                       margin: const EdgeInsets.all(5.0),
-                      child: Stack(
-                        alignment: Alignment.topRight,
-                        children: [
-                          Image.network(
-                            widget.productModel.productImages[currentIndex],
-                            fit: BoxFit.cover,
-                            width: size.width,
-                            height: size.height,
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              } else {
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            (loadingProgress
-                                                    .expectedTotalBytes ??
-                                                1)
-                                        : null,
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        ],
+                      child: Image.network(
+                        widget.productModel.productImages[currentIndex],
+                        fit: BoxFit.cover,
+                        width: size.width,
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        (loadingProgress.expectedTotalBytes ??
+                                            1)
+                                    : null,
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ),
                   )
                   .toList(),
               options: CarouselOptions(
-                height: 485,
+                height: 400,
                 autoPlay: false,
                 aspectRatio: 2.0,
                 viewportFraction: 1,
@@ -195,34 +217,49 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             Align(
               alignment: Alignment.topRight,
-              child: IconButton(
-                icon: Icon(
-                  isFavorite ? Icons.favorite : Icons.favorite_border,
-                  size: 30,
-                  color: Colors.redAccent,
-                ),
-                onPressed: () async {
-                  setState(() {
-                    isFavorite = !isFavorite;
-                  });
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          size: 30,
+                          color: Colors.redAccent,
+                        ),
+                        onPressed: () async {
+                          setState(() {
+                            isFavorite = !isFavorite;
+                          });
 
-                  if (isFavorite) {
-                    // If becoming favorite, add to Firebase
-                    await addFirebaseController.addFavoriteItem(
-                      uId: user!.uid,
-                      productModel: widget.productModel,
-                    );
-                  } else {
-                    // If removing from favorites, delete from Firebase
-                    await addFirebaseController.deleteFavoriteItem(
-                      uId: user!.uid,
-                      productId: widget.productModel.productId,
-                    );
-                  }
+                          if (isFavorite) {
+                            // If becoming favorite, add to Firebase
+                            await addFirebaseController.addFavoriteItem(
+                              uId: user!.uid,
+                              productModel: widget.productModel,
+                            );
+                          } else {
+                            // If removing from favorites, delete from Firebase
+                            await addFirebaseController.deleteFavoriteItem(
+                              uId: user!.uid,
+                              productId: widget.productModel.productId,
+                            );
+                          }
 
-                  // Save the favorite status to SharedPreferences
-                  await saveFavoriteStatus(isFavorite);
-                },
+                          // Save the favorite status to SharedPreferences
+                          await saveFavoriteStatus(isFavorite);
+                        },
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                    ],
+                  ),
+                ],
               ),
             )
           ],
@@ -244,192 +281,179 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color:
-                      currentIndex == entry.key ? Colors.black54 : Colors.grey,
+                  color: currentIndex == entry.key ? Colors.red : Colors.grey,
                 ),
               ),
             );
           }).toList(),
         ),
+        const SizedBox(
+          height: 5,
+        ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 30, left: 10),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 15),
-              child: Row(
-                children: [
-                  InkWell(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                SizedBox(
+                  height: 80,
+                  width: 80,
+                  child: GestureDetector(
                     onTap: () {
                       setState(() {
                         currentIndex = 0;
                       });
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: SizedBox(
-                        height: 80,
-                        width: 80,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image(
-                                  image: NetworkImage(
-                                      widget.productModel.productImages[0]),
-                                  fit: BoxFit.fill)),
-                        ),
-                      ),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image(
+                              image: NetworkImage(
+                                  widget.productModel.productImages[0]),
+                              fit: BoxFit.fill)),
                     ),
                   ),
-                  InkWell(
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                SizedBox(
+                  height: 80,
+                  width: 80,
+                  child: GestureDetector(
                     onTap: () {
                       setState(() {
                         currentIndex = 1;
                       });
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: SizedBox(
-                        height: 80,
-                        width: 80,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image(
-                                image: NetworkImage(
-                                    widget.productModel.productImages[1],
-                                    scale: 1.0),
-                                fit: BoxFit.fill,
-                              )),
-                        ),
-                      ),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image(
+                              image: NetworkImage(
+                                  widget.productModel.productImages[1]),
+                              fit: BoxFit.fill)),
                     ),
                   ),
-                  InkWell(
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                SizedBox(
+                  height: 80,
+                  width: 80,
+                  child: GestureDetector(
                     onTap: () {
                       setState(() {
                         currentIndex = 2;
                       });
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: SizedBox(
-                        height: 80,
-                        width: 80,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20.0),
-                            child: Image(
-                                image: NetworkImage(
-                                    widget.productModel.productImages[2]),
-                                fit: BoxFit.cover),
-                          ),
-                        ),
-                      ),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image(
+                              image: NetworkImage(
+                                  widget.productModel.productImages[2]),
+                              fit: BoxFit.fill)),
                     ),
                   ),
-                  InkWell(
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                SizedBox(
+                  height: 80,
+                  width: 80,
+                  child: GestureDetector(
                     onTap: () {
                       setState(() {
                         currentIndex = 3;
                       });
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: SizedBox(
-                        height: 80,
-                        width: 80,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image(
-                                  image: NetworkImage(
-                                      widget.productModel.productImages[3]),
-                                  fit: BoxFit.fill)),
-                        ),
-                      ),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image(
+                              image: NetworkImage(
+                                  widget.productModel.productImages[3]),
+                              fit: BoxFit.fill)),
                     ),
                   ),
-                  InkWell(
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                SizedBox(
+                  height: 80,
+                  width: 80,
+                  child: GestureDetector(
                     onTap: () {
                       setState(() {
                         currentIndex = 4;
                       });
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: SizedBox(
-                        height: 80,
-                        width: 80,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image(
-                                  image: NetworkImage(
-                                      widget.productModel.productImages[4]),
-                                  fit: BoxFit.fill)),
-                        ),
-                      ),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image(
+                              image: NetworkImage(
+                                  widget.productModel.productImages[4]),
+                              fit: BoxFit.fill)),
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            alignment: Alignment.topLeft,
-            child: Row(
-              children: [
-                widget.productModel.isSale == true &&
-                        widget.productModel.salePrice != ''
-                    ? Text(
-                        "INR: ${widget.productModel.salePrice}",
-                      )
-                    : Text(
-                        "₹ ${widget.productModel.fullPrice}",
-                        style: const TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      ),
+                ),
               ],
             ),
           ),
         ),
         Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Align(
-              alignment: Alignment(-0.96, 0),
-              child: Text(
-                "Description",
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
-              ),
+            Row(
+              children: [
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  'Rs. ${widget.productModel.fullPrice}',
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25),
+                ),
+              ],
             ),
             Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Text(
-                widget.productModel.productDescription,
-                style:
-                    const TextStyle(fontWeight: FontWeight.w300, fontSize: 15),
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                color: Colors.grey[100],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    widget.productModel.productDescription,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w300, fontSize: 15),
+                  ),
+                ),
               ),
             ),
           ],
         )
       ])),
-      bottomNavigationBar: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      bottomNavigationBar:
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Container(
           width: halfWidth.width,
           height: 56,
@@ -442,8 +466,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   // Navigate to the CartScreen
                   // Get.to(() => const Cart());
                 } catch (e) {
-                  print("Error adding to cart: $e");
-                  // Handle the error, e.g., show a snackbar or display an error message.
+                  if (kDebugMode) {
+                    print("Error adding to cart: $e");
+                  }
                 }
               },
               child: const Text(
@@ -457,7 +482,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           color: Colors.black,
           child: TextButton(
               onPressed: () {
-                Get.off(() => const CartScreen());
+                Get.off(() => const CartScreen(),
+                    transition: Transition.leftToRightWithFade);
               },
               child: const Text(
                 "Buy now",

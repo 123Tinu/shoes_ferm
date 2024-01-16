@@ -73,15 +73,13 @@ class GoogleSignInController extends GetxController {
   Future<void> signOutGoogle() async {
     try {
       await _googleSignIn.signOut();
-      user(null); // Assuming that `user` is a function to update the user state
+      user(null);
 
       if (kDebugMode) {
         print("User Signed Out");
       }
-      Get.offAll(() =>
-          const WelcomeScreen()); // Use Get.offAll to navigate to MainScreen
+      Get.offAll(() => const WelcomeScreen());
     } catch (e) {
-      // Handle any errors that occurred during sign out
       if (kDebugMode) {
         print("Error signing out: $e");
       }

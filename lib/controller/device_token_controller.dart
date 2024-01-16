@@ -19,7 +19,7 @@ class GetDeviceTokenController extends GetxController {
       if (token != null) {
         deviceToken = token;
         if (kDebugMode) {
-          print("token : $deviceToken");
+          print("Token : $deviceToken");
         }
         update();
       }
@@ -27,7 +27,7 @@ class GetDeviceTokenController extends GetxController {
       Get.snackbar(
         "Error",
         "$e",
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         backgroundColor: const Color(0xFF981206),
         colorText: const Color(0xFFFBF5F4),
       );

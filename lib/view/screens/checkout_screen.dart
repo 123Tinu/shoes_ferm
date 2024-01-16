@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
-import 'package:shoes_ferm/view/main_screen.dart';
 import '../../controller/cart_price_controller.dart';
 import '../../model/cart_model.dart';
 import '../../services/customer_device_token.dart';
@@ -150,14 +149,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 2,
-          leading: IconButton(
-              onPressed: () => Get.offAll(() => const MainScreen(),
-                  transition: Transition.leftToRightWithFade),
-              icon: const Icon(CupertinoIcons.back, color: Colors.black)),
           centerTitle: true,
-          title: Text("Checkout page",
+          title: Text("Checkout",
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 fontSize: 18.sp,
                 fontFamily: 'Roboto-Regular',
               )),
@@ -226,7 +221,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         performsFirstActionWithFullSwipe: true,
                         onTap: (CompletionHandler handler) async {
                           if (kDebugMode) {
-                            print('deleted');
+                            print('Deleted');
                           }
 
                           await FirebaseFirestore.instance
@@ -239,19 +234,26 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       )
                     ],
                     child: Card(
-                      elevation: 5,
+                      elevation: 2,
                       color: Colors.white,
                       child: ListTile(
                         leading: CircleAvatar(
-                          backgroundColor: Colors.yellow,
+                          backgroundColor: Colors.white,
                           backgroundImage:
                               NetworkImage(cartModel.productImages[0]),
                         ),
-                        title: Text(cartModel.productName),
+                        title: Text(
+                          cartModel.productName,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         subtitle: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(cartModel.productTotalPrice.toString()),
+                            Text(
+                              cartModel.productTotalPrice.toString(),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ],
                         ),
                       ),

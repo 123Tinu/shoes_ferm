@@ -99,7 +99,7 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size =MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
         Get.to(() => ProductDetailsScreen(productModel: productModel));
@@ -110,8 +110,8 @@ class ProductCard extends StatelessWidget {
         child: Column(
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(10)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(10)),
               child: SizedBox(
                 height: 130,
                 child: Image.network(

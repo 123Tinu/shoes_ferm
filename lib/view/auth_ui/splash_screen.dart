@@ -25,9 +25,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future logInCheck(BuildContext context) async {
     if (user != null) {
-      Get.offAll(() => const MainScreen(), transition: Transition.cupertino);
+      Get.offAll(() => const MainScreen(),
+          transition: Transition.leftToRightWithFade);
     } else {
-      Get.to(() => const WelcomeScreen(), transition: Transition.cupertino);
+      Get.to(() => const WelcomeScreen(),
+          transition: Transition.leftToRightWithFade);
     }
   }
 
@@ -58,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       fontWeight: FontWeight.w500),
                 ),
                 SizedBox(
-                  height: 3,
+                  height: 1,
                 ),
                 Text(
                   "The Sneaker Store",

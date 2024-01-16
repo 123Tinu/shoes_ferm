@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,7 +30,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CupertinoActivityIndicator());
           }
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
@@ -104,8 +105,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                 Text(
                                   '4.5',
                                   style: TextStyle(
-                                      color: Colors.orangeAccent,
-                                      fontSize: 10),
+                                      color: Colors.orangeAccent, fontSize: 10),
                                 ),
                                 SizedBox(
                                   width: 10,
@@ -150,9 +150,10 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                             const SizedBox(
                               height: 4,
                             ),
-                            SizedBox(
+                            Container(
                               height: 40,
                               width: 190,
+                              color: Colors.grey[100],
                               child: Text(
                                 cartProduct.productDescription,
                                 style: const TextStyle(

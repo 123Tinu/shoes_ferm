@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoes_ferm/view/auth_ui/sign_up_screen.dart';
@@ -95,12 +96,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 onTap: () {
                   if (_loginKey3.currentState!.validate()) {
                     String email = _forgotPasswordController.text.trim();
-                    print(email);
+                    if (kDebugMode) {
+                      print(email);
+                    }
                     if (email.isEmpty) {
                       Get.snackbar(
                         "Error",
                         "Please enter all details",
-                        snackPosition: SnackPosition.BOTTOM,
+                        snackPosition: SnackPosition.TOP,
                       );
                     } else {
                       _emailPassController.forgotPassword(email);
@@ -124,7 +127,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   GestureDetector(
                     onTap: () {
                       Get.off(() => const SignUp(),
-                          transition: Transition.cupertinoDialog);
+                          transition: Transition.leftToRightWithFade);
                     },
                     child: const Text(
                       'Sign Up',

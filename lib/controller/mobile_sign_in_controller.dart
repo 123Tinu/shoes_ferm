@@ -18,21 +18,25 @@ class SentOtpController extends GetxController {
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await _auth.signInWithCredential(credential);
-          Get.snackbar("Success", "Automatic Verification Completed");
+          Get.snackbar("Success", "Automatic Verification Completed",
+              snackPosition: SnackPosition.TOP);
         },
         verificationFailed: (FirebaseAuthException e) {
-          Get.snackbar("Error", "Verification Failed: ${e.message}");
+          Get.snackbar("Error", "Verification Failed: ${e.message}",
+              snackPosition: SnackPosition.TOP);
         },
         codeSent: (String verificationId, int? resendToken) {
-          Get.snackbar("Code Sent", "Code Sent to $phoneNumber");
+          Get.snackbar("Code Sent", "Code Sent to $phoneNumber",
+              snackPosition: SnackPosition.TOP);
           Get.to(() => VerifyOtp(verificationId: verificationId));
         },
         codeAutoRetrievalTimeout: (String verificationId) {
-          Get.snackbar("Timeout", "Auto Retrieval Timeout: $verificationId");
+          Get.snackbar("Timeout", "Auto Retrieval Timeout: $verificationId",
+              snackPosition: SnackPosition.TOP);
         },
       );
     } catch (e) {
-      Get.snackbar("Error", "Error: $e");
+      Get.snackbar("Error", "Error: $e", snackPosition: SnackPosition.TOP);
     }
   }
 
@@ -74,14 +78,17 @@ class SentOtpController extends GetxController {
         Get.snackbar(
           "Error",
           "$error",
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
         );
       }
-      Get.snackbar('Success', 'Registration Successful');
-      Get.snackbar("Success", "Verification Successful");
+      Get.snackbar('Success', 'Registration Successful',
+          snackPosition: SnackPosition.TOP);
+      Get.snackbar("Success", "Verification Successful",
+          snackPosition: SnackPosition.TOP);
       Get.offAll(() => const MainScreen());
     } catch (e) {
-      Get.snackbar("Error", "Verification Failed: $e");
+      Get.snackbar("Error", "Verification Failed: $e",
+          snackPosition: SnackPosition.TOP);
     }
   }
 }

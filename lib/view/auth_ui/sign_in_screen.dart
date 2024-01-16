@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoes_ferm/controller/google_sign_in_controller.dart';
@@ -128,7 +129,7 @@ class _SignInState extends State<SignIn> {
                     child: GestureDetector(
                       onTap: () {
                         Get.to(() => const ForgotPassword(),
-                            transition: Transition.cupertinoDialog);
+                            transition: Transition.leftToRightWithFade);
                       },
                       child: Text(
                         'Forgot Password?',
@@ -157,7 +158,7 @@ class _SignInState extends State<SignIn> {
                     _emailPassController.updateLoading();
                     try {
                       UserCredential? userCredential =
-                          await _emailPassController.signinUser(
+                          await _emailPassController.signInUser(
                               _emailController1.text,
                               _passwordController1.text);
                       if (userCredential!.user!.emailVerified) {
@@ -166,7 +167,9 @@ class _SignInState extends State<SignIn> {
                             transition: Transition.leftToRightWithFade);
                       }
                     } catch (e) {
-                      print(e);
+                      if (kDebugMode) {
+                        print(e);
+                      }
                     } finally {
                       _emailPassController.updateLoading();
                     }
@@ -220,7 +223,7 @@ class _SignInState extends State<SignIn> {
                   SquareTile(
                       onTap: () {
                         Get.to(() => const SentOtp(),
-                            transition: Transition.cupertinoDialog);
+                            transition: Transition.leftToRightWithFade);
                       },
                       imagePath: 'assets/images/phone.jpeg')
                 ],
@@ -241,7 +244,7 @@ class _SignInState extends State<SignIn> {
                   GestureDetector(
                     onTap: () {
                       Get.to(() => const SignUp(),
-                          transition: Transition.cupertinoDialog);
+                          transition: Transition.leftToRightWithFade);
                     },
                     child: const Text(
                       'Sign Up',

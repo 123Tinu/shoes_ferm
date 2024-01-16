@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoes_ferm/view/screens/checkout_screen.dart';
@@ -23,15 +24,15 @@ class _UpiScreenState extends State<UpiScreen> {
   final PlaceOrderController _placeOrderController =
       Get.put(PlaceOrderController());
   Future<UpiResponse>? _transaction;
-  UpiIndia _upiIndia = UpiIndia();
+  final UpiIndia _upiIndia = UpiIndia();
   List<UpiApp>? apps;
 
-  TextStyle header = TextStyle(
+  TextStyle header = const TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,
   );
 
-  TextStyle value = TextStyle(
+  TextStyle value = const TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: 14,
   );
@@ -52,8 +53,8 @@ class _UpiScreenState extends State<UpiScreen> {
     double amount = double.parse(widget.totalAmount);
     return _upiIndia.startTransaction(
       app: app,
-      receiverUpiId: "vineeth.venu.mini@okicici",
-      receiverName: 'Tinu Tomy',
+      receiverUpiId: "renusebastian71363@oksbi",
+      receiverName: 'Renu Sebastian',
       transactionRefId: 'TestingUpiIndiaPlugin',
       transactionNote: 'Not actual. Just an example.',
       amount: amount,
@@ -62,7 +63,7 @@ class _UpiScreenState extends State<UpiScreen> {
 
   Widget displayUpiApps() {
     if (apps == null)
-      return Center(child: CircularProgressIndicator());
+      return Center(child: CupertinoActivityIndicator());
     else if (apps!.length == 0)
       return Center(
         child: Text(

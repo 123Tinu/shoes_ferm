@@ -9,9 +9,11 @@ class EmailValidationController extends GetxController {
       if (!currentUser.emailVerified) {
         try {
           await currentUser.sendEmailVerification();
-          Get.snackbar('Success', 'Email verification sent to your email');
+          Get.snackbar('Success', 'Email verification sent to your email',
+              snackPosition: SnackPosition.TOP);
         } catch (e) {
-          Get.snackbar('Error', 'Failed to send email verification');
+          Get.snackbar('Error', 'Failed to send email verification',
+              snackPosition: SnackPosition.TOP);
         }
       }
     }

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-
 import '../model/cart_model.dart';
 import '../model/product_model.dart';
 
@@ -30,7 +29,8 @@ class CartItemController extends GetxController {
         'productQuantity': updatedQuantity,
         'productTotalPrice': totalPrice
       });
-      Get.snackbar("Product exists", "Update quantity");
+      Get.snackbar("Product exists", "Update quantity",
+          snackPosition: SnackPosition.TOP);
       if (kDebugMode) {
         print("Product exists");
       }
@@ -67,7 +67,8 @@ class CartItemController extends GetxController {
       if (kDebugMode) {
         print("Product added");
       }
-      Get.snackbar("Success", "product added");
+      Get.snackbar("Success", "Product added",
+          snackPosition: SnackPosition.TOP);
     }
   }
 }

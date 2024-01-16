@@ -44,10 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: ListView(
-          children: const [
-        Column(
-            children: [
+      body: ListView(children: const [
+        Column(children: [
           SizedBox(
             height: 5,
           ),
@@ -56,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                "Trending Deals",
+                "Trending Now",
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 18,
@@ -69,9 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 5,
           ),
           BannerWidget(),
-              SizedBox(
-                height: 10,
-              ),
+          SizedBox(
+            height: 10,
+          ),
           CategoryWidget(),
           Align(
             alignment: Alignment(-0.96, 0),
@@ -85,9 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   )),
             ),
           ),
-              SizedBox(
-                height: 5,
-              ),
+          SizedBox(
+            height: 5,
+          ),
           GetProductWidget(),
         ]),
       ]),

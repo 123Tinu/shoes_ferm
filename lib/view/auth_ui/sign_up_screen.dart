@@ -201,10 +201,12 @@ class _SignUpState extends State<SignUp> {
                                 user: _emailPassController.currentUser!),
                             transition: Transition.leftToRightWithFade);
                       } else {
-                        Get.snackbar('No User Is', 'currently authenticated');
+                        Get.snackbar('No User Is', 'currently authenticated',
+                            snackPosition: SnackPosition.TOP);
                       }
                     } catch (e) {
-                      Get.snackbar('Error', e.toString());
+                      Get.snackbar('Error', e.toString(),
+                          snackPosition: SnackPosition.TOP);
                     } finally {
                       _emailPassController.updateLoading();
                     }
@@ -258,7 +260,7 @@ class _SignUpState extends State<SignUp> {
                   SquareTile(
                       onTap: () {
                         Get.to(() => const SentOtp(),
-                            transition: Transition.cupertinoDialog);
+                            transition: Transition.leftToRightWithFade);
                       },
                       imagePath: 'assets/images/phone.jpeg')
                 ],
@@ -279,7 +281,7 @@ class _SignUpState extends State<SignUp> {
                   GestureDetector(
                     onTap: () {
                       Get.to(() => const SignIn(),
-                          transition: Transition.cupertinoDialog);
+                          transition: Transition.leftToRightWithFade);
                     },
                     child: const Text(
                       'Sign In',

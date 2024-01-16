@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -114,7 +115,7 @@ class _EmailValidationScreenState extends State<EmailValidationScreen> {
               height: 30.h,
             ),
             _isSendingVerification
-                ? const Center(child: CircularProgressIndicator())
+                ? const Center(child: CupertinoActivityIndicator())
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -157,12 +158,14 @@ class _EmailValidationScreenState extends State<EmailValidationScreen> {
                                 .refreshEmail(widget.user);
                             if (user != null && user.emailVerified) {
                               Get.snackbar('Success : ',
-                                  'Email has been verified successfully');
+                                  'Email has been verified successfully',
+                                  snackPosition: SnackPosition.TOP);
                               Get.off(const HomeScreen(),
                                   transition: Transition.leftToRightWithFade);
                             } else {
                               Get.snackbar('Failed : ',
-                                  'Email has been not verified check your mail');
+                                  'Email has been not verified check your mail',
+                                  snackPosition: SnackPosition.TOP);
                             }
                           } catch (e) {
                             if (kDebugMode) {
@@ -188,7 +191,7 @@ class _EmailValidationScreenState extends State<EmailValidationScreen> {
                   ),
             SizedBox(height: 36.h),
             _isSigningOut
-                ? const Center(child: CircularProgressIndicator())
+                ? const Center(child: CupertinoActivityIndicator())
                 : Center(
                     child: ElevatedButton(
                       style: ButtonStyle(

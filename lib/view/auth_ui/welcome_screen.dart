@@ -67,7 +67,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 onTap: () {
                   Get.to(() => const SignIn(),
-                      transition: Transition.cupertinoDialog);
+                      transition: Transition.leftToRightWithFade);
                 },
               ),
               const SizedBox(
@@ -118,7 +118,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 onTap: () {
                   Get.to(() => const SignUp(),
-                      transition: Transition.cupertinoDialog);
+                      transition: Transition.leftToRightWithFade);
                 },
               ),
               const SizedBox(

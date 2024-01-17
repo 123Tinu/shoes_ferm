@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoes_ferm/view/auth_ui/welcome_screen.dart';
+import 'package:shoes_ferm/view/screens/profile_screen.dart';
 import '../../controller/google_sign_in_controller.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -25,7 +26,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Card(
                 child: ListTile(
                   tileColor: Colors.white,
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(()=>const ProfileScreen());
+                  },
                   leading: const Icon(
                     Icons.person_outline,
                     color: Colors.black,

@@ -45,7 +45,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                 )
                 .toList(),
             options: CarouselOptions(
-              height: 175,
+              height: 210,
               enableInfiniteScroll: true,
               autoPlay: true,
               autoPlayInterval: const Duration(seconds: 4),

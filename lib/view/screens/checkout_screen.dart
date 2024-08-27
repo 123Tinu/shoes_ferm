@@ -212,50 +212,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   );
 
                   productPriceController.fetchProductPrice();
-                  return SwipeActionCell(
-                    key: ObjectKey(cartModel.productId),
-                    trailingActions: [
-                      SwipeAction(
-                        title: "Delete",
-                        forceAlignmentToBoundary: true,
-                        performsFirstActionWithFullSwipe: true,
-                        onTap: (CompletionHandler handler) async {
-                          if (kDebugMode) {
-                            print('Deleted');
-                          }
-
-                          await FirebaseFirestore.instance
-                              .collection('cart')
-                              .doc(user!.uid)
-                              .collection('cartOrders')
-                              .doc(cartModel.productId)
-                              .delete();
-                        },
-                      )
-                    ],
-                    child: Card(
-                      elevation: 2,
-                      color: Colors.white,
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          backgroundImage:
-                              NetworkImage(cartModel.productImages[0]),
-                        ),
-                        title: Text(
-                          cartModel.productName,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        subtitle: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              cartModel.productTotalPrice.toString(),
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
+                  return Card(
+                    elevation: 2,
+                    color: Colors.white,
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        backgroundImage:
+                            NetworkImage(cartModel.productImages[0]),
+                      ),
+                      title: Text(
+                        cartModel.productName,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            cartModel.productTotalPrice.toString(),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                     ),
                   );
@@ -284,13 +261,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     width: Get.width / 2.0,
                     height: Get.height / 18,
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: Colors.black,
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     child: TextButton(
                       child: const Text(
                         "Confirm Order",
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () {
                         showCustomBottomSheet();

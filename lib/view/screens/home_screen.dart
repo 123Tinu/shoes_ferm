@@ -52,23 +52,36 @@ class _HomeScreenState extends State<HomeScreen> {
           Align(
             alignment: Alignment(-0.96, 0),
             child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                "Trending Now",
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                  color: Colors.black,
-                ),
-              ),
+              padding: EdgeInsets.all(4.0),
+              child: Text("Top Selection",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                    color: Colors.black,
+                  )),
             ),
           ),
           SizedBox(
-            height: 5,
+            height: 10,
           ),
           BannerWidget(),
           SizedBox(
             height: 10,
+          ),
+          Align(
+            alignment: Alignment(-0.96, 0),
+            child: Padding(
+              padding: EdgeInsets.all(4.0),
+              child: Text("Categories",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                    color: Colors.black,
+                  )),
+            ),
+          ),
+          SizedBox(
+            height: 5,
           ),
           CategoryWidget(),
           Align(

@@ -93,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       textAlign: TextAlign.start,
                       "Name :   ${userData.isNotEmpty ? userData[0]['username'] : 'N/A'}",
                       style: const TextStyle(
-                          fontSize: 20,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),
@@ -121,7 +121,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       textAlign: TextAlign.start,
                       "Email :   ${userData.isNotEmpty ? userData[0]['email'] : 'N/A'}",
                       style: const TextStyle(
-                          fontSize: 20,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),
@@ -149,7 +149,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       textAlign: TextAlign.start,
                       "Mobile :   ${userData.isNotEmpty ? userData[0]['phone'] : 'N/A'}",
                       style: const TextStyle(
-                          fontSize: 20,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),

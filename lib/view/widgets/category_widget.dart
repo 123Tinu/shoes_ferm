@@ -121,6 +121,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                                   style: const TextStyle(
                                     fontSize: 10,
                                     color: Colors.black,
+                                    fontWeight: FontWeight.w500
                                   ),
                                 )
                               ],
